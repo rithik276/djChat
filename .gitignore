@@ -1,0 +1,5 @@
+venv/*
+.vscode/settings.json
+djChat/db.sqlite3
+djChat/.env
+djChat/djChat/__pycache__/*
