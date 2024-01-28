@@ -7,7 +7,7 @@ import PopularChannels from "../components/PrimaryDraw/PopularChannels";
 import ExploreCategories from "../components/SecondaryDraw/ExploreCategories";
 import ExploreServers from "../components/Main/ExploreServers";
 
-const Home = () => {
+const Explore = () => {
   return (
     <Box
       sx={{
@@ -31,4 +31,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Explore;
