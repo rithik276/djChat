@@ -26,6 +26,13 @@ const PrimaryAppBar = () => {
   }, [isSmallScreen]);
 
   const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
+    if (
+      (event.type === "keydown" &&
+        (event as unknown as React.KeyboardEvent).key === "Tab") ||
+      (event as unknown as React.KeyboardEvent).key === "Shift"
+    ) {
+      return;
+    }
     setSideMenu(open);
   };
 

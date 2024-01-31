@@ -74,8 +74,8 @@ class ServerListViewSet(viewsets.ViewSet):
 
         # Apply filtering based on 'by_serverid'
         if by_serverid:
-            if not request.user.is_authenticated:
-                raise AuthenticationFailed()
+            # if not request.user.is_authenticated:
+            #     raise AuthenticationFailed()
             try:
                 self.queryset = self.queryset.filter(id=by_serverid)
                 # Raise ValidationError if the specified server ID does not exist
