@@ -51,7 +51,6 @@ const Login = () => {
           component="h1"
           sx={{
             fontWeight: 700,
-            pb: 4,
             mb: 2,
           }}
         >
@@ -60,9 +59,7 @@ const Login = () => {
         <Box
           component="form"
           onSubmit={formik.handleSubmit}
-          sx={{
-            mt: 1,
-          }}
+          sx={{ width: "100%", mt: 3 }}
         >
           <TextField
             autoFocus
@@ -74,6 +71,7 @@ const Login = () => {
             onChange={formik.handleChange}
             error={!!formik.touched.username && !!formik.errors.username}
             helperText={formik.touched.username && formik.errors.username}
+            sx={{ marginBottom: 2 }}
           ></TextField>
           <TextField
             margin="normal"
@@ -86,21 +84,29 @@ const Login = () => {
             onChange={formik.handleChange}
             error={!!formik.touched.password && !!formik.errors.password}
             helperText={formik.touched.password && formik.errors.password}
+            sx={{ marginBottom: 2 }}
           ></TextField>
           <Button
             variant="contained"
             disableElevation
             type="submit"
-            sx={{
-              marginLeft: "107px",
-              mt: 2,
-              paddingLeft: 10,
-              paddingRight: 10,
-            }}
+            sx={{ width: "100%", marginTop: 2 }}
           >
             Login
           </Button>
         </Box>
+
+        <Button
+          variant="contained"
+          disableElevation
+          type="button"
+          sx={{ width: "100%", marginTop: 2 }}
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          SignUp
+        </Button>
       </Box>
     </Container>
   );

@@ -1,3 +1,4 @@
+import React from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useAuthServiceContext } from "../context/AuthContext";
@@ -12,7 +13,7 @@ const Register = () => {
       password: "",
     },
     validate: (values) => {
-      const errors: Partial<typeof values> = {};
+      const errors = {};
       if (!values.username) {
         errors.username = "Required";
       }
@@ -39,58 +40,59 @@ const Register = () => {
       }
     },
   });
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
           display: "flex",
-          alignItems: "center",
           flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Typography
           variant="h5"
-          noWrap
-          component="h1"
-          sx={{
-            fontWeight: 500,
-            pb: 2,
-          }}
+          sx={{ fontWeight: 500, mb: 2, marginRight: "27px" }}
         >
           Register
         </Typography>
-        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={formik.handleSubmit}
+          sx={{ width: "100%" }}
+        >
           <TextField
             autoFocus
             fullWidth
             id="username"
             name="username"
-            label="username"
+            label="Username"
             value={formik.values.username}
             onChange={formik.handleChange}
             error={!!formik.touched.username && !!formik.errors.username}
             helperText={formik.touched.username && formik.errors.username}
-          ></TextField>
+            sx={{ marginBottom: 2 }}
+          />
           <TextField
-            margin="normal"
             fullWidth
             id="password"
             name="password"
             type="password"
-            label="password"
+            label="Password"
             value={formik.values.password}
             onChange={formik.handleChange}
             error={!!formik.touched.password && !!formik.errors.password}
             helperText={formik.touched.password && formik.errors.password}
-          ></TextField>
+            sx={{ marginBottom: 2 }}
+          />
           <Button
             variant="contained"
             disableElevation
             type="submit"
-            sx={{ mt: 1, mb: 2 }}
+            sx={{ width: "100%", marginTop: 2, paddingRight: "35px" }}
           >
-            Next
+            Signup
           </Button>
         </Box>
       </Box>
