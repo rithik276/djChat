@@ -1,10 +1,12 @@
 import axios, { AxiosInstance } from "axios";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../config";
+import { useAuthService } from "../services/AuthServices";
 
 const API_BASE_URL = BASE_URL;
 
 const useAxiosWithInterceptor = (): AxiosInstance => {
+  const { logout } = useAuthService();
   const jwtAxios = axios.create({ baseURL: API_BASE_URL });
   const navigate = useNavigate();
 
@@ -15,26 +17,17 @@ const useAxiosWithInterceptor = (): AxiosInstance => {
     async (error) => {
       const originalRequest = error.config;
       if (error.response?.status === 401 || error.response?.status === 403) {
-        const refreshToken = localStorage.getItem("refresh_token");
-        if (refreshToken) {
-          try {
-            const refreshResponse = await axios.post(
-              "http://127.0.0.1:8000/api/token/refresh/",
-              {
-                refresh: refreshToken,
-              }
-            );
-            const newAccessToken = refreshResponse.data.access;
-            localStorage.setItem("access_token", newAccessToken);
-            originalRequest.headers["Authorization"] =
-              `Bearer ${newAccessToken}`;
+        axios.defaults.withCredentials = true;
+        try {
+          const response = await axios.post(`${BASE_URL}/token/refresh/`);
+          if (response["status"] === 200) {
             return jwtAxios(originalRequest);
-          } catch (refreshError) {
-            navigate("/login");
-            throw refreshError;
           }
-        } else {
-          navigate("/login");
+        } catch (refreshError) {
+          logout();
+          const goLogin = () => navigate("/login");
+          goLogin();
+          throw Promise.reject(refreshError);
         }
       }
       throw error;

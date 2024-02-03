@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthServiceContext } from "../context/AuthContext";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
-const Login = () => {
-  const { login } = useAuthServiceContext();
+const Register = () => {
+  const { register } = useAuthServiceContext();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -23,15 +23,19 @@ const Login = () => {
     },
     onSubmit: async (values) => {
       const { username, password } = values;
-      const status = await login(username, password);
-      if (status === 401) {
+      const status = await register(username, password);
+      if (status === 409) {
+        formik.setErrors({
+          username: "Invalid username",
+        });
+      } else if (status === 401) {
         console.log("Unauthorised");
         formik.setErrors({
           username: "Invalid username or password",
           password: "Invalid username or password",
         });
       } else {
-        navigate("/");
+        navigate("/login");
       }
     },
   });
@@ -39,31 +43,24 @@ const Login = () => {
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 18,
+          marginTop: 8,
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
         }}
       >
         <Typography
-          variant="h3"
+          variant="h5"
           noWrap
           component="h1"
           sx={{
-            fontWeight: 700,
-            pb: 4,
-            mb: 2,
+            fontWeight: 500,
+            pb: 2,
           }}
         >
-          Sign in
+          Register
         </Typography>
-        <Box
-          component="form"
-          onSubmit={formik.handleSubmit}
-          sx={{
-            mt: 1,
-          }}
-        >
+        <Box component="form" onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
           <TextField
             autoFocus
             fullWidth
@@ -91,14 +88,9 @@ const Login = () => {
             variant="contained"
             disableElevation
             type="submit"
-            sx={{
-              marginLeft: "107px",
-              mt: 2,
-              paddingLeft: 10,
-              paddingRight: 10,
-            }}
+            sx={{ mt: 1, mb: 2 }}
           >
-            Login
+            Next
           </Button>
         </Box>
       </Box>
@@ -106,4 +98,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

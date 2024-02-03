@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useAuthServiceContext } from "../context/AuthContext";
 import useAxiosWithInterceptor from "../helpers/jwtinterceptor";
+import { BASE_URL } from "../config";
 
 const TestLogin = () => {
   const { isLoggedIn, logout } = useAuthServiceContext();
@@ -11,10 +12,9 @@ const TestLogin = () => {
 
   const getUserDetails = async () => {
     try {
-      const response = await jwtAxios.get(
-        `http://127.0.0.1:8000/api/account/?user_id=1`,
-        { withCredentials: true }
-      );
+      const response = await jwtAxios.get(`${BASE_URL}/account/?user_id=1`, {
+        withCredentials: true,
+      });
       const userDetails = response.data;
       setUsername(userDetails.username);
     } catch (err: any) {
