@@ -7,7 +7,6 @@ import {
   useTheme,
   ListItemIcon,
   Typography,
-  capitalize,
 } from "@mui/material";
 import useCrud from "../../hooks/useCrud";
 import { useEffect } from "react";

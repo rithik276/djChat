@@ -1,4 +1,5 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { ReactNode } from "react";
 
 type Props = {
@@ -11,8 +12,8 @@ const Main: React.FC<Props> = ({ children }) => {
     <Box
       sx={{
         flexGrow: 1,
-        height: `calc(100vh - ${theme.primaryAppBar.height}px)`,
         mt: `${theme.primaryAppBar.height}px`,
+        height: `calc(100vh - ${theme.primaryAppBar.height}px )`,
         overflow: "hidden",
       }}
     >
@@ -20,5 +21,4 @@ const Main: React.FC<Props> = ({ children }) => {
     </Box>
   );
 };
-
 export default Main;

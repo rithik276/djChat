@@ -17,8 +17,6 @@ import ServerChannels from "../SecondaryDraw/ServerChannels";
 import { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-// import JoinServerButton from "../Membership/JoinServerButton";
-
 interface ServerChannelProps {
   data: Server[];
 }
@@ -26,8 +24,14 @@ interface ServerChannelProps {
 const MessageInterfaceChannels = (props: ServerChannelProps) => {
   const { data } = props;
   const theme = useTheme();
-  const [sideMenu, setSideMenu] = useState(false);
   const { serverId, channelId } = useParams();
+  const [sideMenu, setSideMenu] = useState(false);
+  const channelName =
+    data
+      ?.find((server) => server.id == Number(serverId))
+      ?.channel_server?.find((channel) => channel.id === Number(channelId))
+      ?.name || "home";
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
   useEffect(() => {
@@ -36,32 +40,23 @@ const MessageInterfaceChannels = (props: ServerChannelProps) => {
     }
   }, [isSmallScreen]);
 
-  const channelName =
-    data
-      ?.find((server) => server.id === Number(serverId))
-      ?.channel_server?.find((channel) => channel.id === Number(channelId))
-      ?.name || "home";
-
-  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
-    if (
-      (event.type === "keydown" &&
-        (event as React.KeyboardEvent).key === "Tab") ||
-      (event as React.KeyboardEvent).key === "Shift"
-    ) {
-      return;
-    }
-    setSideMenu(open);
-  };
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setSideMenu(open);
+    };
 
   const list = () => (
     <Box
-      role="presentation"
+      sx={{ paddingTop: `${theme.primaryAppBar.height}px`, minWidth: 200 }}
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
-      sx={{
-        paddingTop: `${theme.primaryAppBar.height}px`,
-        minWidth: 200,
-      }}
     >
       <ServerChannels data={data} />
     </Box>
@@ -76,6 +71,7 @@ const MessageInterfaceChannels = (props: ServerChannelProps) => {
         }}
         color="default"
         position="sticky"
+        elevation={0}
       >
         <Toolbar
           variant="dense"
@@ -86,7 +82,7 @@ const MessageInterfaceChannels = (props: ServerChannelProps) => {
             alignItems: "center",
           }}
         >
-          <Box sx={{ xs: "block", sm: "none" }}>
+          <Box sx={{ display: { xs: "block", sm: "none" } }}>
             <ListItemAvatar sx={{ minWidth: "40px" }}>
               <Avatar
                 alt="Server Icon"
@@ -95,16 +91,18 @@ const MessageInterfaceChannels = (props: ServerChannelProps) => {
               />
             </ListItemAvatar>
           </Box>
+
           <Typography noWrap component="div">
             {channelName}
           </Typography>
+
           <Box sx={{ flexGrow: 1 }}></Box>
           <Box sx={{ display: { xs: "block", sm: "none" } }}>
-            <IconButton onClick={toggleDrawer(true)} color="inherit" edge="end">
+            <IconButton color="inherit" onClick={toggleDrawer(true)} edge="end">
               <MoreVertIcon />
             </IconButton>
           </Box>
-          <Drawer anchor="left" onClose={toggleDrawer(false)} open={sideMenu}>
+          <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
             {list()}
           </Drawer>
         </Toolbar>
@@ -112,5 +110,4 @@ const MessageInterfaceChannels = (props: ServerChannelProps) => {
     </>
   );
 };
-
 export default MessageInterfaceChannels;

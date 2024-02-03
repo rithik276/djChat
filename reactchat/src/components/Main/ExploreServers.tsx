@@ -147,10 +147,7 @@ const ExploreServers = () => {
                             </Typography>
                           }
                           secondary={
-                            <Typography
-                              variant="body2"
-                              textTransform="capitalize"
-                            >
+                            <Typography variant="body2">
                               {item.category}
                             </Typography>
                           }

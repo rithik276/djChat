@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/ban-types */
 import { Box, CssBaseline } from "@mui/material";
 import PrimaryAppBar from "./templates/PrimaryAppBar";
 import PrimaryDraw from "./templates/PrimaryDraw";
@@ -6,25 +8,14 @@ import Main from "./templates/Main";
 import MessageInterface from "../components/Main/MessageInterface";
 import ServerChannels from "../components/SecondaryDraw/ServerChannels";
 import UserServers from "../components/PrimaryDraw/UserServers";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { Server as server } from "../@types/server.d";
 import useCrud from "../hooks/useCrud";
-
-import { server } from "../@types/server.d";
 import { useEffect } from "react";
 
 const Server = () => {
   const navigate = useNavigate();
   const { serverId, channelId } = useParams();
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (!isChannel()) {
-      navigate(`/server/${serverId}`);
-    }
-  }, []);
 
   const { dataCRUD, error, isLoading, fetchData } = useCrud<server>(
     [],
@@ -36,10 +27,16 @@ const Server = () => {
     return null;
   }
 
-  const isChannel = (): boolean => {
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // Check if the channelId is valid by searching for it in the data fetched from the API
+  const isChannel = (): Boolean => {
     if (!channelId) {
       return true;
     }
+
     return dataCRUD.some((server) =>
       server.channel_server.some(
         (channel) => channel.id === parseInt(channelId)
@@ -47,14 +44,14 @@ const Server = () => {
     );
   };
 
+  useEffect(() => {
+    if (!isChannel()) {
+      navigate(`/server/${serverId}`);
+    }
+  }, [isChannel, channelId]);
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyItems: "center",
-        alignItems: "center",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <PrimaryAppBar />
       <PrimaryDraw>
@@ -69,5 +66,4 @@ const Server = () => {
     </Box>
   );
 };
-
 export default Server;

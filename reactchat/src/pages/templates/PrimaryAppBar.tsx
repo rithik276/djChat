@@ -1,13 +1,14 @@
 import {
+  AppBar,
   Box,
   Drawer,
   IconButton,
   Link,
+  Toolbar,
   Typography,
   useMediaQuery,
-  useTheme,
 } from "@mui/material";
-import { AppBar, Toolbar } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
 import ExploreCategories from "../../components/SecondaryDraw/ExploreCategories";
@@ -25,30 +26,28 @@ const PrimaryAppBar = () => {
     }
   }, [isSmallScreen]);
 
-  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
-    if (
-      (event.type === "keydown" &&
-        (event as unknown as React.KeyboardEvent).key === "Tab") ||
-      (event as unknown as React.KeyboardEvent).key === "Shift"
-    ) {
-      return;
-    }
-    setSideMenu(open);
-  };
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setSideMenu(open);
+    };
 
   const list = () => (
     <Box
-      role="presentation"
+      sx={{ paddingTop: `${theme.primaryAppBar.height}px`, minWidth: 200 }}
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
-      sx={{
-        paddingTop: `${theme.primaryAppBar.height}px`,
-        minWidth: 200,
-      }}
     >
       <ExploreCategories />
     </Box>
   );
+
   return (
     <AppBar
       sx={{
@@ -69,8 +68,8 @@ const PrimaryAppBar = () => {
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            sx={{ mr: 1 }}
-            onClick={toggleDrawer(!sideMenu)}
+            onClick={toggleDrawer(true)}
+            sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
@@ -79,12 +78,13 @@ const PrimaryAppBar = () => {
         <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
           {list()}
         </Drawer>
+
         <Link href="/" underline="none" color="inherit">
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { fontWeight: 700 }, letterSpacing: "-0.5px" }}
+            sx={{ display: { fontWeight: 700, letterSpacing: "-0.5px" } }}
           >
             DJCHAT
           </Typography>
@@ -95,5 +95,4 @@ const PrimaryAppBar = () => {
     </AppBar>
   );
 };
-
 export default PrimaryAppBar;

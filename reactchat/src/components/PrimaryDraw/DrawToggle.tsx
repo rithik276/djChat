@@ -1,17 +1,17 @@
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { ChevronRight, ChevronLeft } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import React from "react";
 
 type Props = {
   open: boolean;
-  handleDrawerOpen: () => void;
   handleDrawerClose: () => void;
+  handleDrawerOpen: () => void;
 };
 
-const DrawToggle: React.FC<Props> = ({
+const DrawerToggle: React.FC<Props> = ({
   open,
-  handleDrawerOpen,
   handleDrawerClose,
+  handleDrawerOpen,
 }) => {
   return (
     <Box
@@ -29,4 +29,4 @@ const DrawToggle: React.FC<Props> = ({
   );
 };
 
-export default DrawToggle;
+export default DrawerToggle;

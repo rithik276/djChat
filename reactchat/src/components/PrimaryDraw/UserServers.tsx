@@ -18,6 +18,7 @@ interface Server {
   category: string;
   icon: string;
 }
+
 interface ServerChannelsProps {
   data: Server[];
 }
@@ -26,7 +27,7 @@ type Props = {
   open: boolean;
 };
 
-const UserServers: React.FC<Props> = ({ open, data }) => {
+const UserServers: React.FC<Props & ServerChannelsProps> = ({ open, data }) => {
   return (
     <>
       <Box

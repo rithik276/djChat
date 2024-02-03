@@ -1,7 +1,9 @@
-import { Box, styled, useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery, styled } from "@mui/material";
+import { useEffect, useState, ReactNode } from "react";
+import { useTheme } from "@mui/material/styles";
+import DrawerToggle from "../../components/PrimaryDraw/DrawToggle";
 import MuiDrawer from "@mui/material/Drawer";
-import React, { ReactNode, useEffect, useState } from "react";
-import DrawToggle from "../../components/PrimaryDraw/DrawToggle";
+import React from "react";
 
 type Props = {
   children: ReactNode;
@@ -12,13 +14,14 @@ type ChildProps = {
 };
 
 type ChildElement = React.ReactElement<ChildProps>;
+
 const PrimaryDraw: React.FC<Props> = ({ children }) => {
   const theme = useTheme();
   const below600 = useMediaQuery("(max-width:599px)");
   const [open, setOpen] = useState(!below600);
 
   const openedMixin = () => ({
-    transistion: theme.transitions.create("width", {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -26,7 +29,7 @@ const PrimaryDraw: React.FC<Props> = ({ children }) => {
   });
 
   const closedMixin = () => ({
-    transistion: theme.transitions.create("width", {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -41,21 +44,28 @@ const PrimaryDraw: React.FC<Props> = ({ children }) => {
     width: theme.primaryDraw.width,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
-    ...(open && { ...openedMixin(), "& .MuiDrawer-paper": openedMixin() }),
-    ...(!open && { ...closedMixin(), "& .MuiDrawer-paper": closedMixin() }),
+    ...(open && {
+      ...openedMixin(),
+      "& .MuiDrawer-paper": openedMixin(),
+    }),
+    ...(!open && {
+      ...closedMixin(),
+      "& .MuiDrawer-paper": closedMixin(),
+    }),
   }));
 
   useEffect(() => {
     setOpen(!below600);
   }, [below600]);
 
-  const handleDrawOpen = () => {
+  const handleDrawerOpen = () => {
     setOpen(true);
   };
 
-  const handleDrawClose = () => {
+  const handleDrawerClose = () => {
     setOpen(false);
   };
+
   return (
     <Drawer
       open={open}
@@ -63,7 +73,7 @@ const PrimaryDraw: React.FC<Props> = ({ children }) => {
       PaperProps={{
         sx: {
           mt: `${theme.primaryAppBar.height}px`,
-          height: `calc(100vh - ${theme.primaryAppBar.height}px)`,
+          height: `calc(100vh - ${theme.primaryAppBar.height}px )`,
           width: theme.primaryDraw.width,
         },
       }}
@@ -78,10 +88,10 @@ const PrimaryDraw: React.FC<Props> = ({ children }) => {
             width: open ? "auto" : "100%",
           }}
         >
-          <DrawToggle
+          <DrawerToggle
             open={open}
-            handleDrawerClose={handleDrawClose}
-            handleDrawerOpen={handleDrawOpen}
+            handleDrawerClose={handleDrawerClose}
+            handleDrawerOpen={handleDrawerOpen}
           />
         </Box>
         {React.Children.map(children, (child) => {
@@ -93,5 +103,4 @@ const PrimaryDraw: React.FC<Props> = ({ children }) => {
     </Drawer>
   );
 };
-
 export default PrimaryDraw;

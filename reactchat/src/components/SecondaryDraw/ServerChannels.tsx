@@ -5,16 +5,11 @@ import {
   ListItemText,
   Box,
   useTheme,
+  ListItemIcon,
   Typography,
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { Server } from "../../@types/server.d";
-// interface Category {
-//   id: number;
-//   name: string;
-//   description: string;
-//   icon: string;
-// }
 
 interface ServerChannelsProps {
   data: Server[];

@@ -9,17 +9,11 @@ import ExploreServers from "../components/Main/ExploreServers";
 
 const Home = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyItems: "center",
-        alignItems: "center",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <PrimaryAppBar />
       <PrimaryDraw>
-        <PopularChannels open={true} />
+        <PopularChannels open={false} />
       </PrimaryDraw>
       <SecondaryDraw>
         <ExploreCategories />
@@ -30,5 +24,4 @@ const Home = () => {
     </Box>
   );
 };
-
 export default Home;

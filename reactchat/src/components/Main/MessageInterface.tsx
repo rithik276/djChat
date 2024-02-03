@@ -18,12 +18,8 @@ import {
 } from "@mui/material";
 import MessageInterfaceChannels from "./MessageInterfaceChannels";
 import Scroll from "./Scroll";
+import React from "react";
 
-interface Message {
-  sender: string;
-  content: string;
-  timestamp: string;
-}
 interface SendMessageData {
   type: string;
   message: string;
@@ -34,13 +30,19 @@ interface ServerChannelProps {
   data: Server[];
 }
 
+interface Message {
+  sender: string;
+  content: string;
+  timestamp: string;
+}
+
 const messageInterface = (props: ServerChannelProps) => {
   const { data } = props;
   const theme = useTheme();
-  const server_name = data?.[0]?.name ?? "server";
   const [newMessage, setNewMessage] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
   const { serverId, channelId } = useParams();
+  const server_name = data?.[0]?.name ?? "Server";
   const { fetchData } = useCrud<Server>(
     [],
     `/messages/?channel_id=${channelId}`
@@ -108,7 +110,7 @@ const messageInterface = (props: ServerChannelProps) => {
   return (
     <>
       <MessageInterfaceChannels data={data} />
-      {channelId === undefined ? (
+      {channelId == undefined ? (
         <Box
           sx={{
             overflow: "hidden",
@@ -142,7 +144,7 @@ const messageInterface = (props: ServerChannelProps) => {
                   return (
                     <ListItem key={index} alignItems="flex-start">
                       <ListItemAvatar>
-                        <Avatar alt="user Image" />
+                        <Avatar alt="user image" />
                       </ListItemAvatar>
                       <ListItemText
                         primaryTypographyProps={{
@@ -164,7 +166,7 @@ const messageInterface = (props: ServerChannelProps) => {
                               variant="caption"
                               color="textSecondary"
                             >
-                              {" on "}
+                              {" at "}
                               {formatTimeStamp(msg.timestamp)}
                             </Typography>
                           </>
@@ -180,12 +182,12 @@ const messageInterface = (props: ServerChannelProps) => {
                               }}
                               sx={{
                                 display: "inline",
-                                lineHeight: "1.2",
-                                fontWeight: "400",
+                                lineHeight: 1.2,
+                                fontWeight: 400,
                                 letterSpacing: "-0.2px",
                               }}
-                              color="text.primary"
                               component="span"
+                              color="text.primary"
                             >
                               {msg.content}
                             </Typography>
@@ -198,14 +200,7 @@ const messageInterface = (props: ServerChannelProps) => {
               </List>
             </Scroll>
           </Box>
-
-          <Box
-            sx={{
-              position: "sticky",
-              bottom: 0,
-              width: "100%",
-            }}
-          >
+          <Box sx={{ position: "sticky", bottom: 0, width: "100%" }}>
             <form
               onSubmit={handleSubmit}
               style={{
@@ -216,14 +211,14 @@ const messageInterface = (props: ServerChannelProps) => {
                 zIndex: 1,
               }}
             >
-              <Box>
+              <Box sx={{ display: "flex" }}>
                 <TextField
-                  className="custom-text-field"
+
                   fullWidth
                   multiline
+                  value={message}
                   minRows={1}
                   maxRows={4}
-                  value={message}
                   onKeyDown={handleKeyDown}
                   onChange={(e) => setMessage(e.target.value)}
                   sx={{

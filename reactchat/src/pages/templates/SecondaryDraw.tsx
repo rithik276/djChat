@@ -1,7 +1,5 @@
-import { Box, useTheme } from "@mui/material";
-import axios from "axios";
-import useAxiosWithInterceptor from "../../helpers/jwtinterceptor";
-import React from "react";
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 type SecondaryDrawProps = {
   children: React.ReactNode;
@@ -9,12 +7,12 @@ type SecondaryDrawProps = {
 
 const SecondaryDraw = ({ children }: SecondaryDrawProps) => {
   const theme = useTheme();
-  const jwtAxios = useAxiosWithInterceptor();
+
   return (
     <Box
       sx={{
         minWidth: `${theme.secondaryDraw.width}px`,
-        height: `calc(100vh - ${theme.primaryAppBar.height}px)`,
+        height: `calc(100vh - ${theme.primaryAppBar.height}px )`,
         mt: `${theme.primaryAppBar.height}px`,
         borderRight: `1px solid ${theme.palette.divider}`,
         display: { xs: "none", sm: "block" },
@@ -25,5 +23,4 @@ const SecondaryDraw = ({ children }: SecondaryDrawProps) => {
     </Box>
   );
 };
-
 export default SecondaryDraw;

@@ -7,19 +7,13 @@ import PopularChannels from "../components/PrimaryDraw/PopularChannels";
 import ExploreCategories from "../components/SecondaryDraw/ExploreCategories";
 import ExploreServers from "../components/Main/ExploreServers";
 
-const Explore = () => {
+const Home = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyItems: "center",
-        alignItems: "center",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <PrimaryAppBar />
       <PrimaryDraw>
-        <PopularChannels open={true} />
+        <PopularChannels open={false} />
       </PrimaryDraw>
       <SecondaryDraw>
         <ExploreCategories />
@@ -30,5 +24,4 @@ const Explore = () => {
     </Box>
   );
 };
-
-export default Explore;
+export default Home;
