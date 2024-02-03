@@ -44,7 +44,6 @@ export function useAuthService(): AuthServiceProps {
         },
         { withCredentials: true }
       );
-
       const user_id = response.data.user_id;
 
       localStorage.setItem("isLoggedIn", "true");
